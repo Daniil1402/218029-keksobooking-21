@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Даня Яковлев](https://up.htmlacademy.ru/javascript/21/user/218029).
-* Наставник: `Неизвестно`.
+- Студент: [Даня Яковлев](https://up.htmlacademy.ru/javascript/21/user/218029).
+- Наставник: `Олег Глущенко`.
 
 ---
 
