@@ -102,7 +102,6 @@ var createObjectArr = function () {
   for (var i = 0; i < 8; i++) {
     objectsArr.push(createObject(numbers[i], addressesX[i], addressesY[i]));
   }
-  console.log(objectsArr);
   return objectsArr;
 };
 
