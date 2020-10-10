@@ -102,6 +102,7 @@ var createObjectArr = function () {
   for (var i = 0; i < 8; i++) {
     objectsArr.push(createObject(numbers[i], addressesX[i], addressesY[i]));
   }
+  console.log(objectsArr);
   return objectsArr;
 };
 
@@ -157,26 +158,24 @@ var renderCard = function (obj1) {
 
   if (obj1.offer.type === "flat") {
     cardType.textContent = "Квартира";
-  }
-  if (obj1.offer.type === "bungalow") {
+  } else if (obj1.offer.type === "bungalow") {
     cardType.textContent = "Бунгало";
-  }
-  if (obj1.offer.type === "house") {
+  } else if (obj1.offer.type === "house") {
     cardType.textContent = "Дом";
-  }
-  if (obj1.offer.type === "palace") {
+  } else if (obj1.offer.type === "palace") {
     cardType.textContent = "Дворец";
   }
-
+  var roomsCol;
   if (obj1.offer.rooms === 1) {
-    var roomsCol = `${obj1.offer.rooms} комната для `;
+    roomsCol = `${obj1.offer.rooms} комната для `;
   } else if (obj1.offer.rooms > 4) {
     roomsCol = `${obj1.offer.rooms} комнат для `;
   } else if (obj1.offer.rooms < 5 && obj1.offer.rooms > 1) {
     roomsCol = `${obj1.offer.rooms} комнаты для `;
   }
+  var guestsCol;
   if (obj1.offer.guests === 1) {
-    var guestsCol = `${obj1.offer.guests} гостя.`;
+    guestsCol = `${obj1.offer.guests} гостя.`;
   } else {
     guestsCol = `${obj1.offer.guests} гостей.`;
   }
