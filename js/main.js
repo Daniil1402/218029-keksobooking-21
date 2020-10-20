@@ -13,26 +13,7 @@ for (var formFieldset of formFieldsetsElement) {
 
 var mapPinMain = document.querySelector(`.map__pin--main`);
 
-// Заполнение поля адреса
-var MAP_PIN_LEFT = 570;
-var MAP_PIN_TOP = 375;
-var MAP_PIN_WIDTH_HEIGHT = 65;
-var MAP_PIN_AFTER_HEIGHT = 22;
-
-var formAddress = form.querySelector(`#address`);
-
-var mapPinCenterX = Math.round(MAP_PIN_LEFT + MAP_PIN_WIDTH_HEIGHT / 2);
-var mapPinCenterY = Math.round(MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT / 2);
-formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
-
-var createEnableAddress = function () {
-  mapPinCenterY = Math.round(
-      MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
-  );
-  formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
-};
-
-// Заполнение поля адреса
+var enPageFlag = false;
 
 var enablePage = function () {
   map.classList.remove(`map--faded`);
@@ -41,12 +22,12 @@ var enablePage = function () {
     formFieldset.removeAttribute(`disabled`);
   }
   mapFiltersElement.classList.remove(`ad-form--disabled`);
-  createEnableAddress();
+  window.address.makeAddress();
+  enPageFlag = true;
 };
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
-  // console.log(e.buttons);
-  if (evt.buttons === 1) {
+  if (evt.buttons === 1 && !enPageFlag) {
     enablePage();
     window.pin();
   }
@@ -55,7 +36,7 @@ mapPinMain.addEventListener(`mousedown`, function (evt) {
 var keyEnter = `Enter`;
 
 mapPinMain.addEventListener(`keydown`, function (evt) {
-  if (evt.key === keyEnter) {
+  if (evt.key === keyEnter && !enPageFlag) {
     enablePage();
     window.pin();
   }
