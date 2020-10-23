@@ -17,7 +17,7 @@
   window.address = {
     makeAddress() {
       mapPinCenterY = Math.round(
-        MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
+          MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
       );
       formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
     },
