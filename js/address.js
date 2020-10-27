@@ -21,14 +21,14 @@
 
   var makeAddress = function () {
     var mapPinCenterY = Math.round(
-      MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
+        MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
     );
     formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
   };
 
   window.address = {
     defAddress: makeDefaultAddress,
-    makeAddress: makeAddress,
+    makeAddress,
     addressForm: formAddress,
     pinWidth: MAP_PIN_WIDTH_HEIGHT,
   };

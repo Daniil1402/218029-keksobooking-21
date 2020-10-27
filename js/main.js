@@ -26,8 +26,8 @@
     window.address.makeAddress();
     enPageFlag = true;
     for (var pin of mapPin) {
-      if (!pin.classList.contains("map__pin--main")) {
-        pin.classList.remove("hidden");
+      if (!pin.classList.contains(`map__pin--main`)) {
+        pin.classList.remove(`hidden`);
       }
     }
   };
@@ -43,14 +43,14 @@
       formFieldset.setAttribute(`disabled`, `disabled`);
     }
     mapFiltersElement.classList.add(`ad-form--disabled`);
-    mapPinMain.style = "left: 570px; top: 375px";
+    mapPinMain.style = `left: 570px; top: 375px`;
     if (mapCard) {
       mapCard.remove();
     }
     window.address.defAddress();
     for (var pin of mapPin) {
-      if (!pin.classList.contains("map__pin--main")) {
-        pin.classList.add("hidden");
+      if (!pin.classList.contains(`map__pin--main`)) {
+        pin.classList.add(`hidden`);
       }
       // pin.classList.add("hidden");
     }
@@ -103,5 +103,5 @@
     });
     evt.preventDefault();
   };
-  form.addEventListener("submit", submitHandler);
+  form.addEventListener(`submit`, submitHandler);
 })();

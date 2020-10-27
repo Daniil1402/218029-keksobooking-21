@@ -2,15 +2,15 @@
 
 (function () {
   var URL = `https://21.javascript.pages.academy/keksobooking`;
-  var main = document.querySelector("main");
+  var main = document.querySelector(`main`);
 
   var successTemp = document
-    .querySelector("#success")
-    .content.querySelector(".success");
+    .querySelector(`#success`)
+    .content.querySelector(`.success`);
 
   var errorTemp = document
-    .querySelector("#error")
-    .content.querySelector(".error");
+    .querySelector(`#error`)
+    .content.querySelector(`.error`);
 
   var StatusCode = {
     OK: 200,
@@ -28,25 +28,25 @@
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
         main.appendChild(successTemp);
-        document.addEventListener("click", function () {
+        document.addEventListener(`click`, function () {
           removeNotice(successTemp);
         });
-        document.addEventListener("keydown", function (evt) {
-          if (evt.key === "Escape") {
+        document.addEventListener(`keydown`, function (evt) {
+          if (evt.key === `Escape`) {
             removeNotice(successTemp);
           }
         });
       } else {
         main.appendChild(errorTemp);
-        var errorButton = errorTemp.querySelector(".error__button");
-        document.addEventListener("click", function () {
+        var errorButton = errorTemp.querySelector(`.error__button`);
+        document.addEventListener(`click`, function () {
           removeNotice(errorTemp);
         });
-        errorButton.addEventListener("click", function () {
+        errorButton.addEventListener(`click`, function () {
           removeNotice(errorTemp);
         });
-        document.addEventListener("keydown", function (evt) {
-          if (evt.key === "Escape") {
+        document.addEventListener(`keydown`, function (evt) {
+          if (evt.key === `Escape`) {
             removeNotice(errorTemp);
           }
         });
