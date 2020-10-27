@@ -3,27 +3,57 @@
 (function () {
   var map = document.querySelector(`.map`);
   var form = document.querySelector(`.ad-form`);
-  var formFieldsetsElement = form.querySelectorAll(`fieldset`);
+  var formFieldsetsElements = form.querySelectorAll(`fieldset`);
   var mapFiltersElement = document.querySelector(`.map__filters`);
-  var mapPins = document.querySelector(`.map__pins`);
+  var mapPinsEl = document.querySelector(`.map__pins`);
+  var mapPinMain = document.querySelector(`.map__pin--main`);
 
-  for (var formFieldset of formFieldsetsElement) {
+  for (var formFieldset of formFieldsetsElements) {
     formFieldset.setAttribute(`disabled`, `disabled`);
   }
-
-  var mapPinMain = document.querySelector(`.map__pin--main`);
 
   var enPageFlag = false;
 
   var enablePage = function () {
+    var mapPin = document.querySelectorAll(`.map__pin`);
+
     map.classList.remove(`map--faded`);
     form.classList.remove(`ad-form--disabled`);
-    for (formFieldset of formFieldsetsElement) {
+    for (formFieldset of formFieldsetsElements) {
       formFieldset.removeAttribute(`disabled`);
     }
     mapFiltersElement.classList.remove(`ad-form--disabled`);
     window.address.makeAddress();
     enPageFlag = true;
+    for (var pin of mapPin) {
+      if (!pin.classList.contains("map__pin--main")) {
+        pin.classList.remove("hidden");
+      }
+    }
+  };
+
+  var disablePage = function () {
+    var mapCard = document.querySelector(`.map__card`);
+    var mapPin = document.querySelectorAll(`.map__pin`);
+
+    map.classList.add(`map--faded`);
+    form.classList.add(`ad-form--disabled`);
+    form.reset();
+    for (formFieldset of formFieldsetsElements) {
+      formFieldset.setAttribute(`disabled`, `disabled`);
+    }
+    mapFiltersElement.classList.add(`ad-form--disabled`);
+    mapPinMain.style = "left: 570px; top: 375px";
+    if (mapCard) {
+      mapCard.remove();
+    }
+    window.address.defAddress();
+    for (var pin of mapPin) {
+      if (!pin.classList.contains("map__pin--main")) {
+        pin.classList.add("hidden");
+      }
+      // pin.classList.add("hidden");
+    }
   };
 
   var createPin = function (obj) {
@@ -32,7 +62,7 @@
       var pinEl = window.pin(obj[i]);
       fragment.appendChild(pinEl);
     }
-    mapPins.appendChild(fragment);
+    mapPinsEl.appendChild(fragment);
   };
 
   var errorHandler = function (errorMessage) {
@@ -51,6 +81,8 @@
     if (evt.buttons === 1 && !enPageFlag) {
       enablePage();
       window.download(createPin, errorHandler);
+    } else if (evt.buttons === 1 && enPageFlag) {
+      enablePage();
     }
   });
 
@@ -60,6 +92,16 @@
     if (evt.key === keyEnter && !enPageFlag) {
       enablePage();
       window.download(createPin, errorHandler);
+    } else if (evt.key === keyEnter && enPageFlag) {
+      enablePage();
     }
   });
+
+  var submitHandler = function (evt) {
+    window.upload(new FormData(form), function () {
+      disablePage();
+    });
+    evt.preventDefault();
+  };
+  form.addEventListener("submit", submitHandler);
 })();

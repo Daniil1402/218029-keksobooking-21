@@ -14,13 +14,13 @@
         var pinAttr = pointer.attributes[3].value;
         if (!mapCard) {
           window.popup.fragment.appendChild(
-              window.popup.renderPopup(obj[pinAttr])
+            window.popup.renderPopup(obj[pinAttr])
           );
           mapPins.appendChild(window.popup.fragment);
         } else {
           mapCard.remove();
           window.popup.fragment.appendChild(
-              window.popup.renderPopup(obj[pinAttr])
+            window.popup.renderPopup(obj[pinAttr])
           );
           mapPins.appendChild(window.popup.fragment);
         }

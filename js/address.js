@@ -11,16 +11,24 @@
   var formAddress = form.querySelector(`#address`);
 
   var mapPinCenterX = Math.round(MAP_PIN_LEFT + MAP_PIN_WIDTH_HEIGHT / 2);
-  var mapPinCenterY = Math.round(MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT / 2);
-  formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
+
+  var makeDefaultAddress = function () {
+    var mapPinCenterY = Math.round(MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT / 2);
+    formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
+  };
+
+  makeDefaultAddress();
+
+  var makeAddress = function () {
+    var mapPinCenterY = Math.round(
+      MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
+    );
+    formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
+  };
 
   window.address = {
-    makeAddress() {
-      mapPinCenterY = Math.round(
-          MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
-      );
-      formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
-    },
+    defAddress: makeDefaultAddress,
+    makeAddress: makeAddress,
     addressForm: formAddress,
     pinWidth: MAP_PIN_WIDTH_HEIGHT,
   };
