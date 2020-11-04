@@ -15,7 +15,10 @@
 
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
-        onLoad(xhr.response);
+        var mapFiltersElement = document.querySelector(`.map__filters`);
+        var response = window.main.setId(xhr.response);
+        onLoad(response);
+        mapFiltersElement.classList.remove(`hidden`);
       } else {
         onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }

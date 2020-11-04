@@ -8,11 +8,27 @@
   var mapPinsEl = document.querySelector(`.map__pins`);
   var mapPinMain = document.querySelector(`.map__pin--main`);
 
+  var MAX_PIN = 5;
+
+  mapFiltersElement.classList.add(`hidden`);
+
   for (var formFieldset of formFieldsetsElements) {
     formFieldset.setAttribute(`disabled`, `disabled`);
   }
 
   var enPageFlag = false;
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement(`div`);
+    node.style = `z-index: 100; text-align: left; background-color: #dadada;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.top = 0;
+    node.style.fontSize = `20px`;
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
 
   var enablePage = function () {
     var mapPin = document.querySelectorAll(`.map__pin`);
@@ -22,8 +38,10 @@
     for (formFieldset of formFieldsetsElements) {
       formFieldset.removeAttribute(`disabled`);
     }
-    mapFiltersElement.classList.remove(`ad-form--disabled`);
     window.address.makeAddress();
+    if (!enPageFlag) {
+      window.download(createPin, errorHandler);
+    }
     enPageFlag = true;
     for (var pin of mapPin) {
       if (!pin.classList.contains(`map__pin--main`)) {
@@ -52,35 +70,29 @@
       if (!pin.classList.contains(`map__pin--main`)) {
         pin.classList.add(`hidden`);
       }
-      // pin.classList.add("hidden");
     }
+  };
+
+  var setId = function (arrObj) {
+    for (var i = 0; i < arrObj.length; i++) {
+      arrObj[i].id = i;
+    }
+    return arrObj;
   };
 
   var createPin = function (obj) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < obj.length; i++) {
+    for (var i = 0; i < MAX_PIN; i++) {
       var pinEl = window.pin(obj[i]);
       fragment.appendChild(pinEl);
     }
     mapPinsEl.appendChild(fragment);
   };
 
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement(`div`);
-    node.style = `z-index: 100; text-align: left; background-color: #dadada;`;
-    node.style.position = `absolute`;
-    node.style.left = 0;
-    node.style.top = 0;
-    node.style.fontSize = `20px`;
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement(`afterbegin`, node);
-  };
-
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     if (evt.buttons === 1 && !enPageFlag) {
       enablePage();
-      window.download(createPin, errorHandler);
+      // window.download(createPin, errorHandler);
     } else if (evt.buttons === 1 && enPageFlag) {
       enablePage();
     }
@@ -91,7 +103,7 @@
   mapPinMain.addEventListener(`keydown`, function (evt) {
     if (evt.key === keyEnter && !enPageFlag) {
       enablePage();
-      window.download(createPin, errorHandler);
+      // window.download(createPin, errorHandler);
     } else if (evt.key === keyEnter && enPageFlag) {
       enablePage();
     }
@@ -104,4 +116,9 @@
     evt.preventDefault();
   };
   form.addEventListener(`submit`, submitHandler);
+
+  window.main = {
+    createPin,
+    setId,
+  };
 })();

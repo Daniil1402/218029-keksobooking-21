@@ -10,6 +10,8 @@
       var pointer = evt.target.closest(`.map__pin`);
       var mapCard = document.querySelector(`.map__card`);
 
+      // console.log(evt.target.attributes);
+
       if (pointer && !pointer.classList.contains(`map__pin--main`)) {
         var pinAttr = pointer.attributes[3].value;
         if (!mapCard) {
