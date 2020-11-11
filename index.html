@@ -79,9 +79,11 @@
             </select>
             <select name="housing-price" id="housing-price" class="map__filter">
               <option value="any" selected>Любая</option>
-              <option value="middle">10000 - 50000&#x20bd;</option>
-              <option value="low">до 10000&#x20bd;</option>
-              <option value="high">от 50000&#x20bd;</option>
+              <option value="middle" data-min="10000" data-max="50000">
+                10000 - 50000&#x20bd;
+              </option>
+              <option value="low" data-max="10000">до 10000&#x20bd;</option>
+              <option value="high" data-min="50000">от 50000&#x20bd;</option>
             </select>
             <select name="housing-rooms" id="housing-rooms" class="map__filter">
               <option value="any" selected>Любое число комнат</option>

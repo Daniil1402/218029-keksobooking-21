@@ -32,7 +32,7 @@
     var roomsCol;
     if (obj1.offer.rooms === 1) {
       roomsCol = `${obj1.offer.rooms} комната для `;
-    } else if (obj1.offer.rooms > 4) {
+    } else if (obj1.offer.rooms > 4 || obj1.offer.rooms === 0) {
       roomsCol = `${obj1.offer.rooms} комнат для `;
     } else if (obj1.offer.rooms < 5 && obj1.offer.rooms > 1) {
       roomsCol = `${obj1.offer.rooms} комнаты для `;
