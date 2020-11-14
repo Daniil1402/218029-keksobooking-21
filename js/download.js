@@ -18,7 +18,6 @@
         var mapFiltersElement = document.querySelector(`.map__filters`);
         var response = window.main.setId(xhr.response);
         onLoad(response);
-        // console.log(response);
         mapFiltersElement.classList.remove(`hidden`);
       } else {
         onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);

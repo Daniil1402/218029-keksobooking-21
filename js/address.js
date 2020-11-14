@@ -20,10 +20,10 @@
   makeDefaultAddress();
 
   var makeAddress = function () {
-    var mapPinCenterY = Math.round(
+    var mapPinDownY = Math.round(
         MAP_PIN_TOP + MAP_PIN_WIDTH_HEIGHT + MAP_PIN_AFTER_HEIGHT
     );
-    formAddress.value = `${mapPinCenterX}, ${mapPinCenterY}`;
+    formAddress.value = `${mapPinCenterX}, ${mapPinDownY}`;
   };
 
   window.address = {
@@ -31,5 +31,6 @@
     makeAddress,
     addressForm: formAddress,
     pinWidth: MAP_PIN_WIDTH_HEIGHT,
+    afterHeight: MAP_PIN_AFTER_HEIGHT,
   };
 })();

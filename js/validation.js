@@ -40,7 +40,7 @@
 
   var formTypeText;
 
-  formType.addEventListener(`change`, function () {
+  var changeMinPrice = function () {
     if (formType.value === `flat`) {
       FORM_MIN_PRICE = 1000;
       formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
@@ -58,10 +58,16 @@
       formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
       formTypeText = `Дворец`;
     }
-  });
-  // console.log(formType.value);
+    checkPrice();
+  };
 
-  formPrice.addEventListener(`input`, function () {
+  formType.addEventListener(`change`, changeMinPrice);
+  form.addEventListener(`reset`, function () {
+    FORM_MIN_PRICE = 1000;
+    formTypeText = `Квартира`;
+  });
+
+  var checkPrice = function () {
     if (formPrice.value > FORM_MAX_PRICE) {
       formPrice.setCustomValidity(
           `Максимальная цена за ночь ${FORM_MAX_PRICE} руб.`
@@ -74,6 +80,10 @@
       formPrice.setCustomValidity(``);
     }
     formPrice.reportValidity();
+  };
+
+  formPrice.addEventListener(`input`, function () {
+    checkPrice();
   });
 
   formAddress.setAttribute(`readonly`, `readonly`);
@@ -85,23 +95,6 @@
   formTimeout.addEventListener(`change`, function (evt) {
     formTimein.value = evt.target.value;
   });
-
-  // var syncTime = function ({ selectName, value }) {
-  //   switch (selectName) {
-  //     case "timein":
-  //       formTimeout.value = value;
-  //       break;
-  //     case "timeout":
-  //       formTimein.value = value;
-  //       break;
-  //   }
-  // };
-
-  // form.addEventListener("change", function (evt) {
-  //   if (evt.target.closest("select")) {
-  //     syncTime({ selectName: evt.target.name, value: evt.target.value });
-  //   }
-  // });
 
   formRoomNumber.addEventListener(`change`, function (evt) {
     if (evt.target.value === `100`) {

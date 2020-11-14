@@ -24,32 +24,40 @@
       status.remove();
     };
 
+    var closeSuccessInfo = function (event) {
+      if (event.key === `Escape`) {
+        removeNotice(successTemp);
+      } else {
+        removeNotice(successTemp);
+      }
+      document.removeEventListener(`keydown`, closeSuccessInfo);
+      document.removeEventListener(`click`, closeSuccessInfo);
+    };
+
+    var errorButton = errorTemp.querySelector(`.error__button`);
+
+    var closeErrorInfo = function (event) {
+      if (event.key === `Escape`) {
+        removeNotice(errorTemp);
+      } else {
+        removeNotice(errorTemp);
+      }
+      document.removeEventListener(`keydown`, closeErrorInfo);
+      document.removeEventListener(`click`, closeErrorInfo);
+      errorButton.removeEventListener(`click`, closeErrorInfo);
+    };
+
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
         main.appendChild(successTemp);
-        document.addEventListener(`click`, function () {
-          removeNotice(successTemp);
-        });
-        document.addEventListener(`keydown`, function (evt) {
-          if (evt.key === `Escape`) {
-            removeNotice(successTemp);
-          }
-        });
+        document.addEventListener(`click`, closeSuccessInfo);
+        document.addEventListener(`keydown`, closeSuccessInfo);
       } else {
         main.appendChild(errorTemp);
-        var errorButton = errorTemp.querySelector(`.error__button`);
-        document.addEventListener(`click`, function () {
-          removeNotice(errorTemp);
-        });
-        errorButton.addEventListener(`click`, function () {
-          removeNotice(errorTemp);
-        });
-        document.addEventListener(`keydown`, function (evt) {
-          if (evt.key === `Escape`) {
-            removeNotice(errorTemp);
-          }
-        });
+        document.addEventListener(`click`, closeErrorInfo);
+        errorButton.addEventListener(`click`, closeErrorInfo);
+        document.addEventListener(`keydown`, closeErrorInfo);
       }
     });
 

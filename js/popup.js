@@ -16,6 +16,8 @@
     var cardPhotos = cardElement.querySelector(`.popup__photos`);
     var cardAvatar = cardElement.querySelector(`.popup__avatar`);
 
+    var popupFeature = cardElement.querySelector(`.popup__features`);
+
     cardTitle.textContent = obj1.offer.title;
     cardAddress.textContent = obj1.offer.address;
     cardPrice.textContent = `${obj1.offer.price}₽/ночь`;
@@ -54,6 +56,9 @@
       if (featureIndex === -1) {
         cardFeature.remove();
       }
+    }
+    if (obj1.offer.features.length === 0) {
+      popupFeature.remove();
     }
 
     cardDescription.textContent = obj1.offer.description;

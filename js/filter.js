@@ -23,7 +23,7 @@
     data = obj;
   };
 
-  window.download(saveData);
+  // window.download(saveData);
 
   var filtration = function (filter, featuresFilters, filterPrices) {
     var FilteredMarkers = data.filter(function (marker) {
@@ -53,6 +53,7 @@
   var lastTimeout;
 
   mapFiltersEl.addEventListener(`change`, function () {
+    window.download(saveData);
     var filterSelect = mapFiltersEl.querySelectorAll(`select`);
     var filterInput = mapFiltersEl.querySelectorAll(`input`);
 

@@ -36,9 +36,9 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  var enablePage = function () {
-    var mapPin = document.querySelectorAll(`.map__pin`);
+  var enFlag = false;
 
+  var enablePage = function () {
     for (mapFilterEl of mapFilter) {
       mapFilterEl.removeAttribute(`disabled`, `disabled`);
     }
@@ -52,16 +52,15 @@
     }
     window.address.makeAddress();
     window.download(createPin, errorHandler);
-    for (var pin of mapPin) {
-      if (!pin.classList.contains(`map__pin--main`)) {
-        pin.classList.remove(`hidden`);
-      }
-    }
+    window.download(window.openclosePopup.openclosePopup, errorHandler);
   };
 
   var disablePage = function () {
     var mapCard = document.querySelector(`.map__card`);
     var mapPin = document.querySelectorAll(`.map__pin`);
+    var price = document.querySelector(`#price`);
+
+    price.placeholder = `1000`;
 
     mapFiltersElement.reset();
 
@@ -79,9 +78,13 @@
     window.address.defAddress();
     for (var pin of mapPin) {
       if (!pin.classList.contains(`map__pin--main`)) {
-        pin.classList.add(`hidden`);
+        pin.remove();
       }
     }
+
+    // formType.value = "flat";
+
+    enFlag = false;
   };
 
   var setId = function (arrObj) {
@@ -105,16 +108,18 @@
   };
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
-    if (evt.buttons === 1) {
+    if (evt.buttons === 1 && !enFlag) {
       enablePage();
+      enFlag = true;
     }
   });
 
   var keyEnter = `Enter`;
 
   mapPinMain.addEventListener(`keydown`, function (evt) {
-    if (evt.key === keyEnter) {
+    if (evt.key === keyEnter && !enFlag) {
       enablePage();
+      enFlag = true;
     }
   });
 
