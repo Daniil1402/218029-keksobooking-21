@@ -30,11 +30,11 @@
           mapPinsElement.appendChild(window.popup.fragment);
           pointer.classList.add(`map__pin---active`);
         }
+        previusPointer = pointer;
       } else if (evt.target.classList.value === `popup__close`) {
         previusPointer.classList.remove(`map__pin---active`);
         mapCard.remove();
       }
-      previusPointer = pointer;
     });
 
     mapPinsElement.addEventListener(`keydown`, function (evt) {
