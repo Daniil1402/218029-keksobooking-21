@@ -2,7 +2,6 @@
 
 (function () {
   var mapPinMain = document.querySelector(`.map__pin--main`);
-  // var dialogHandle = setupDialogElement.querySelector(`.upload`);
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
     if (evt.buttons === 1) {
@@ -31,17 +30,22 @@
 
         var mainPinTop = mapPinMain.offsetTop - shift.y;
         var mainPinLeft = mapPinMain.offsetLeft - shift.x;
-        var mainPinX = mainPinLeft + Math.round(window.address.pinWidth / 2);
+        var mainPinX = mainPinLeft + Math.floor(window.address.pinWidth / 2);
         var mainPinY =
           mainPinTop + window.address.pinWidth + window.address.afterHeight;
 
-        if (mainPinLeft > -32 && mainPinLeft < 1167) {
+        if (mainPinX >= 0 && mainPinX <= 1200) {
           mapPinMain.style.left = mainPinLeft + `px`;
         }
-        if (mainPinTop >= 130 && mainPinTop <= 630) {
+        if (mainPinY >= 130 && mainPinY <= 630) {
           mapPinMain.style.top = mainPinTop + `px`;
         }
-        if (mainPinX > 0 && mainPinX < 1201) {
+        if (
+          mainPinX >= 0 &&
+          mainPinX <= 1200 &&
+          mainPinY >= 130 &&
+          mainPinY <= 630
+        ) {
           window.address.addressForm.value = `${mainPinX}, ${mainPinY}`;
         }
       };

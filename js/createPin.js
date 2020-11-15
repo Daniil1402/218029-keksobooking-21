@@ -1,12 +1,12 @@
 "use strict";
 
 (function () {
-  var objTemplate = document
+  var pinTemplate = document
     .querySelector(`#pin`)
     .content.querySelector(`.map__pin`);
 
-  window.pin = function (obj) {
-    var pinElement = objTemplate.cloneNode(true);
+  window.createPin = function (obj) {
+    var pinElement = pinTemplate.cloneNode(true);
 
     pinElement.style = `left: ${obj.location.x}px; top: ${obj.location.y}px;`;
 

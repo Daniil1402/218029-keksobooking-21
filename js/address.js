@@ -1,7 +1,6 @@
 "use strict";
 
 (function () {
-  // Заполнение поля адреса
   var MAP_PIN_LEFT = 570;
   var MAP_PIN_TOP = 375;
   var MAP_PIN_WIDTH_HEIGHT = 65;
@@ -27,7 +26,7 @@
   };
 
   window.address = {
-    defAddress: makeDefaultAddress,
+    makeDefaultAddress,
     makeAddress,
     addressForm: formAddress,
     pinWidth: MAP_PIN_WIDTH_HEIGHT,

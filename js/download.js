@@ -1,13 +1,19 @@
 "use strict";
 
 (function () {
+  var TIMEOUT_IN_MS = 10000;
   var URL = `https://21.javascript.pages.academy/keksobooking/data`;
 
   var StatusCode = {
     OK: 200,
   };
 
-  var TIMEOUT_IN_MS = 10000;
+  var setId = function (downloadedPins) {
+    for (var i = 0; i < downloadedPins.length; i++) {
+      downloadedPins[i].id = i;
+    }
+    return downloadedPins;
+  };
 
   window.download = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -16,7 +22,7 @@
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
         var mapFiltersElement = document.querySelector(`.map__filters`);
-        var response = window.main.setId(xhr.response);
+        var response = setId(xhr.response);
         onLoad(response);
         mapFiltersElement.classList.remove(`hidden`);
       } else {

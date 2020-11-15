@@ -1,6 +1,11 @@
 "use strict";
 
 (function () {
+  var FORM_TITLE_MAX_LENGTH = 100;
+  var FORM_TITLE_MIN_LENGTH = 30;
+  var FORM_MAX_PRICE = 1000000;
+  var formMinPrice;
+
   var form = document.querySelector(`.ad-form`);
   var formTitle = form.querySelector(`#title`);
   var formAddress = form.querySelector(`#address`);
@@ -10,12 +15,7 @@
   var formTimeout = form.querySelector(`#timeout`);
   var formRoomNumber = form.querySelector(`#room_number`);
   var formCapacity = form.querySelector(`#capacity`);
-  var formCapacityOption = formCapacity.querySelectorAll(`option`);
-
-  var FORM_TITLE_MAX_LENGTH = 100;
-  var FORM_TITLE_MIN_LENGTH = 30;
-  var FORM_MAX_PRICE = 1000000;
-  var FORM_MIN_PRICE;
+  var formCapacityOptions = formCapacity.querySelectorAll(`option`);
 
   formTitle.addEventListener(`input`, function () {
     if (formTitle.value.length < FORM_TITLE_MIN_LENGTH) {
@@ -33,8 +33,8 @@
   });
 
   if (formType.value === `flat`) {
-    FORM_MIN_PRICE = 1000;
-    formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
+    formMinPrice = 1000;
+    formPrice.setAttribute(`placeholder`, `${formMinPrice}`);
     formTypeText = `Квартира`;
   }
 
@@ -42,20 +42,20 @@
 
   var changeMinPrice = function () {
     if (formType.value === `flat`) {
-      FORM_MIN_PRICE = 1000;
-      formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
+      formMinPrice = 1000;
+      formPrice.setAttribute(`placeholder`, `${formMinPrice}`);
       formTypeText = `Квартира`;
     } else if (formType.value === `bungalow`) {
-      FORM_MIN_PRICE = 0;
-      formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
+      formMinPrice = 0;
+      formPrice.setAttribute(`placeholder`, `${formMinPrice}`);
       formTypeText = `Бунгало`;
     } else if (formType.value === `house`) {
-      FORM_MIN_PRICE = 5000;
-      formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
+      formMinPrice = 5000;
+      formPrice.setAttribute(`placeholder`, `${formMinPrice}`);
       formTypeText = `Дом`;
     } else if (formType.value === `palace`) {
-      FORM_MIN_PRICE = 10000;
-      formPrice.setAttribute(`placeholder`, `${FORM_MIN_PRICE}`);
+      formMinPrice = 10000;
+      formPrice.setAttribute(`placeholder`, `${formMinPrice}`);
       formTypeText = `Дворец`;
     }
     checkPrice();
@@ -63,7 +63,7 @@
 
   formType.addEventListener(`change`, changeMinPrice);
   form.addEventListener(`reset`, function () {
-    FORM_MIN_PRICE = 1000;
+    formMinPrice = 1000;
     formTypeText = `Квартира`;
   });
 
@@ -72,9 +72,9 @@
       formPrice.setCustomValidity(
           `Максимальная цена за ночь ${FORM_MAX_PRICE} руб.`
       );
-    } else if (formPrice.value < FORM_MIN_PRICE) {
+    } else if (formPrice.value < formMinPrice) {
       formPrice.setCustomValidity(
-          `Минимальная цена за ночь в типе жилья: ${formTypeText}, ${FORM_MIN_PRICE} руб.`
+          `Минимальная цена за ночь в типе жилья: ${formTypeText}, ${formMinPrice} руб.`
       );
     } else {
       formPrice.setCustomValidity(``);
@@ -97,23 +97,24 @@
   });
 
   formRoomNumber.addEventListener(`change`, function (evt) {
+    var formCapacityOption;
     if (evt.target.value === `100`) {
       formCapacity.value = `0`;
-      for (var formCapacityOptionEl of formCapacityOption) {
-        if (formCapacityOptionEl.value !== `0`) {
-          formCapacityOptionEl.setAttribute(`disabled`, `disabled`);
+      for (formCapacityOption of formCapacityOptions) {
+        if (formCapacityOption.value !== `0`) {
+          formCapacityOption.setAttribute(`disabled`, `disabled`);
         } else {
-          formCapacityOptionEl.removeAttribute(`disabled`);
+          formCapacityOption.removeAttribute(`disabled`);
         }
       }
     } else {
-      for (formCapacityOptionEl of formCapacityOption) {
-        if (formCapacityOptionEl.value === `0`) {
-          formCapacityOptionEl.setAttribute(`disabled`, `disabled`);
-        } else if (formCapacityOptionEl.value > evt.target.value) {
-          formCapacityOptionEl.setAttribute(`disabled`, `disabled`);
+      for (formCapacityOption of formCapacityOptions) {
+        if (formCapacityOption.value === `0`) {
+          formCapacityOption.setAttribute(`disabled`, `disabled`);
+        } else if (formCapacityOption.value > evt.target.value) {
+          formCapacityOption.setAttribute(`disabled`, `disabled`);
         } else {
-          formCapacityOptionEl.removeAttribute(`disabled`);
+          formCapacityOption.removeAttribute(`disabled`);
         }
       }
       formCapacity.value = evt.target.value;
