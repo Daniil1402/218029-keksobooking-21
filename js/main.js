@@ -1,25 +1,30 @@
 "use strict";
 
 (function () {
+  var KEY_ENTER = `Enter`;
+
   var map = document.querySelector(`.map`);
   var form = document.querySelector(`.ad-form`);
-  var formFieldsetsElements = form.querySelectorAll(`fieldset`);
+  var formFieldsets = form.querySelectorAll(`fieldset`);
   var mapFiltersElement = document.querySelector(`.map__filters`);
-  var mapFilter = mapFiltersElement.querySelectorAll(`select`);
-  var mapFeatures = mapFiltersElement.querySelector(`.map__features`);
-  var mapPinsEl = document.querySelector(`.map__pins`);
+  var mapFilters = mapFiltersElement.querySelectorAll(`select`);
+  var mapFeaturesElement = mapFiltersElement.querySelector(`.map__features`);
+  var mapPinsElement = document.querySelector(`.map__pins`);
   var mapPinMain = document.querySelector(`.map__pin--main`);
   var formReset = form.querySelector(`.ad-form__reset`);
 
   mapFiltersElement.classList.add(`hidden`);
 
-  for (var mapFilterEl of mapFilter) {
-    mapFilterEl.setAttribute(`disabled`, `disabled`);
+  var mapFilter;
+
+  for (mapFilter of mapFilters) {
+    mapFilter.setAttribute(`disabled`, `disabled`);
   }
 
-  mapFeatures.setAttribute(`disabled`, `disabled`);
+  mapFeaturesElement.setAttribute(`disabled`, `disabled`);
 
-  for (var formFieldset of formFieldsetsElements) {
+  var formFieldset;
+  for (formFieldset of formFieldsets) {
     formFieldset.setAttribute(`disabled`, `disabled`);
   }
 
@@ -36,28 +41,28 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  var enFlag = false;
+  var enableFlag = false;
 
   var enablePage = function () {
-    for (mapFilterEl of mapFilter) {
-      mapFilterEl.removeAttribute(`disabled`, `disabled`);
+    for (mapFilter of mapFilters) {
+      mapFilter.removeAttribute(`disabled`, `disabled`);
     }
 
-    mapFeatures.removeAttribute(`disabled`, `disabled`);
+    mapFeaturesElement.removeAttribute(`disabled`, `disabled`);
 
     map.classList.remove(`map--faded`);
     form.classList.remove(`ad-form--disabled`);
-    for (formFieldset of formFieldsetsElements) {
+    for (formFieldset of formFieldsets) {
       formFieldset.removeAttribute(`disabled`);
     }
     window.address.makeAddress();
     window.download(createPin, errorHandler);
-    window.download(window.openclosePopup.openclosePopup, errorHandler);
+    window.download(window.openclosePopup.changePopupState, errorHandler);
   };
 
   var disablePage = function () {
     var mapCard = document.querySelector(`.map__card`);
-    var mapPin = document.querySelectorAll(`.map__pin`);
+    var mapPins = document.querySelectorAll(`.map__pin`);
     var price = document.querySelector(`#price`);
 
     price.placeholder = `1000`;
@@ -67,7 +72,7 @@
     map.classList.add(`map--faded`);
     form.classList.add(`ad-form--disabled`);
     form.reset();
-    for (formFieldset of formFieldsetsElements) {
+    for (formFieldset of formFieldsets) {
       formFieldset.setAttribute(`disabled`, `disabled`);
     }
     mapFiltersElement.setAttribute(`disabled`, `disabled`);
@@ -75,51 +80,39 @@
     if (mapCard) {
       mapCard.remove();
     }
-    window.address.defAddress();
-    for (var pin of mapPin) {
+    window.address.makeDefaultAddress();
+    for (var pin of mapPins) {
       if (!pin.classList.contains(`map__pin--main`)) {
         pin.remove();
       }
     }
-
-    // formType.value = "flat";
-
-    enFlag = false;
+    enableFlag = false;
   };
 
-  var setId = function (arrObj) {
-    for (var i = 0; i < arrObj.length; i++) {
-      arrObj[i].id = i;
-    }
-    return arrObj;
-  };
-
-  var createPin = function (obj) {
-    var MAX_PIN = 5;
+  var createPin = function (markers) {
+    var maxPin = 5;
     var fragment = document.createDocumentFragment();
-    if (obj.length < MAX_PIN) {
-      MAX_PIN = obj.length;
+    if (markers.length < maxPin) {
+      maxPin = markers.length;
     }
-    for (var i = 0; i < MAX_PIN; i++) {
-      var pinEl = window.pin(obj[i]);
-      fragment.appendChild(pinEl);
+    for (var i = 0; i < maxPin; i++) {
+      var pinElement = window.createPin(markers[i]);
+      fragment.appendChild(pinElement);
     }
-    mapPinsEl.appendChild(fragment);
+    mapPinsElement.appendChild(fragment);
   };
 
   mapPinMain.addEventListener(`mousedown`, function (evt) {
-    if (evt.buttons === 1 && !enFlag) {
+    if (evt.buttons === 1 && !enableFlag) {
       enablePage();
-      enFlag = true;
+      enableFlag = true;
     }
   });
 
-  var keyEnter = `Enter`;
-
   mapPinMain.addEventListener(`keydown`, function (evt) {
-    if (evt.key === keyEnter && !enFlag) {
+    if (evt.key === KEY_ENTER && !enableFlag) {
       enablePage();
-      enFlag = true;
+      enableFlag = true;
     }
   });
 
@@ -137,6 +130,5 @@
 
   window.main = {
     createPin,
-    setId,
   };
 })();

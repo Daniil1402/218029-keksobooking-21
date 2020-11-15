@@ -3,7 +3,7 @@
 (function () {
   var cardTemplate = document.querySelector(`#card`).content;
 
-  var renderCard = function (obj1) {
+  var renderCard = function (pin) {
     var cardElement = cardTemplate.cloneNode(true);
     var cardTitle = cardElement.querySelector(`.popup__title`);
     var cardAddress = cardElement.querySelector(`.popup__text--address`);
@@ -13,72 +13,72 @@
     var cardTextTime = cardElement.querySelector(`.popup__text--time`);
     var cardFeatures = cardElement.querySelectorAll(`.popup__feature`);
     var cardDescription = cardElement.querySelector(`.popup__description`);
-    var cardPhotos = cardElement.querySelector(`.popup__photos`);
+    var cardPhoto = cardElement.querySelector(`.popup__photos`);
     var cardAvatar = cardElement.querySelector(`.popup__avatar`);
 
     var popupFeature = cardElement.querySelector(`.popup__features`);
 
-    cardTitle.textContent = obj1.offer.title;
-    cardAddress.textContent = obj1.offer.address;
-    cardPrice.textContent = `${obj1.offer.price}₽/ночь`;
+    cardTitle.textContent = pin.offer.title;
+    cardAddress.textContent = pin.offer.address;
+    cardPrice.textContent = `${pin.offer.price}₽/ночь`;
 
-    if (obj1.offer.type === `flat`) {
+    if (pin.offer.type === `flat`) {
       cardType.textContent = `Квартира`;
-    } else if (obj1.offer.type === `bungalow`) {
+    } else if (pin.offer.type === `bungalow`) {
       cardType.textContent = `Бунгало`;
-    } else if (obj1.offer.type === `house`) {
+    } else if (pin.offer.type === `house`) {
       cardType.textContent = `Дом`;
-    } else if (obj1.offer.type === `palace`) {
+    } else if (pin.offer.type === `palace`) {
       cardType.textContent = `Дворец`;
     }
-    var roomsCol;
-    if (obj1.offer.rooms === 1) {
-      roomsCol = `${obj1.offer.rooms} комната для `;
-    } else if (obj1.offer.rooms > 4 || obj1.offer.rooms === 0) {
-      roomsCol = `${obj1.offer.rooms} комнат для `;
-    } else if (obj1.offer.rooms < 5 && obj1.offer.rooms > 1) {
-      roomsCol = `${obj1.offer.rooms} комнаты для `;
+    var roomsCount;
+    if (pin.offer.rooms === 1) {
+      roomsCount = `${pin.offer.rooms} комната для `;
+    } else if (pin.offer.rooms > 4 || pin.offer.rooms === 0) {
+      roomsCount = `${pin.offer.rooms} комнат для `;
+    } else if (pin.offer.rooms < 5 && pin.offer.rooms > 1) {
+      roomsCount = `${pin.offer.rooms} комнаты для `;
     }
-    var guestsCol;
-    if (obj1.offer.guests === 1) {
-      guestsCol = `${obj1.offer.guests} гостя.`;
+    var guestsCount;
+    if (pin.offer.guests === 1) {
+      guestsCount = `${pin.offer.guests} гостя.`;
     } else {
-      guestsCol = `${obj1.offer.guests} гостей.`;
+      guestsCount = `${pin.offer.guests} гостей.`;
     }
-    cardTextCapacity.textContent = roomsCol + guestsCol;
+    cardTextCapacity.textContent = roomsCount + guestsCount;
 
-    cardTextTime.textContent = `Заезд после ${obj1.offer.checkin}, выезд до ${obj1.offer.checkout}`;
+    cardTextTime.textContent = `Заезд после ${pin.offer.checkin}, выезд до ${pin.offer.checkout}`;
 
     for (var cardFeature of cardFeatures) {
       var cardClass = cardFeature.classList[1];
       var featureCode = cardClass.split(`--`)[1];
-      var featureIndex = obj1.offer.features.indexOf(featureCode);
+      var featureIndex = pin.offer.features.indexOf(featureCode);
       if (featureIndex === -1) {
         cardFeature.remove();
       }
     }
-    if (obj1.offer.features.length === 0) {
+    if (pin.offer.features.length === 0) {
       popupFeature.remove();
     }
 
-    cardDescription.textContent = obj1.offer.description;
+    cardDescription.textContent = pin.offer.description;
 
-    var cardPhotosChild = cardPhotos.querySelector(`.popup__photo`);
+    var cardPhotosChild = cardPhoto.querySelector(`.popup__photo`);
 
-    if (obj1.offer.photos.length === 0) {
+    if (pin.offer.photos.length === 0) {
       cardPhotosChild.remove();
-    } else if (obj1.offer.photos.length === 1) {
-      cardPhotosChild.src = obj1.offer.photos[0];
-    } else if (obj1.offer.photos.length > 1) {
-      for (var i = 1; i < obj1.offer.photos.length; i++) {
-        cardPhotosChild.src = obj1.offer.photos[0];
+    } else if (pin.offer.photos.length === 1) {
+      cardPhotosChild.src = pin.offer.photos[0];
+    } else if (pin.offer.photos.length > 1) {
+      for (var i = 1; i < pin.offer.photos.length; i++) {
+        cardPhotosChild.src = pin.offer.photos[0];
         var cardPhotoСlone = cardPhotosChild.cloneNode();
-        cardPhotoСlone.src = obj1.offer.photos[i];
-        cardPhotos.appendChild(cardPhotoСlone);
+        cardPhotoСlone.src = pin.offer.photos[i];
+        cardPhoto.appendChild(cardPhotoСlone);
       }
     }
 
-    cardAvatar.src = obj1.author.avatar;
+    cardAvatar.src = pin.author.avatar;
 
     return cardElement;
   };

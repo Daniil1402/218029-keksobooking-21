@@ -1,13 +1,13 @@
 "use strict";
 
 (function () {
-  var mapFiltersEl = document.querySelector(`.map__filters`);
+  var mapFiltersElement = document.querySelector(`.map__filters`);
 
-  var devarePin = function (FilteredMarkers) {
-    var mapPin = document.querySelectorAll(`.map__pin`);
+  var clearPin = function (filteredMarkers) {
+    var mapPins = document.querySelectorAll(`.map__pin`);
     var mapCard = document.querySelector(`.map__card`);
 
-    for (var pin of mapPin) {
+    for (var pin of mapPins) {
       if (!pin.classList.contains(`map__pin--main`)) {
         pin.remove();
       }
@@ -15,18 +15,16 @@
     if (mapCard) {
       mapCard.remove();
     }
-    window.main.createPin(FilteredMarkers);
+    window.main.createPin(filteredMarkers);
   };
 
   var data = [];
-  var saveData = function (obj) {
-    data = obj;
+  var saveData = function (downloadedPins) {
+    data = downloadedPins;
   };
 
-  // window.download(saveData);
-
-  var filtration = function (filter, featuresFilters, filterPrices) {
-    var FilteredMarkers = data.filter(function (marker) {
+  var filterMarkers = function (filter, featuresFilters, filterPrices) {
+    var filteredMarkers = data.filter(function (marker) {
       for (var key in filter) {
         if (marker.offer[key] !== filter[key]) {
           return false;
@@ -47,52 +45,52 @@
       }
       return true;
     });
-    devarePin(FilteredMarkers);
+    clearPin(filteredMarkers);
   };
 
   var lastTimeout;
 
-  mapFiltersEl.addEventListener(`change`, function () {
+  mapFiltersElement.addEventListener(`change`, function () {
     window.download(saveData);
-    var filterSelect = mapFiltersEl.querySelectorAll(`select`);
-    var filterInput = mapFiltersEl.querySelectorAll(`input`);
+    var filterSelect = mapFiltersElement.querySelectorAll(`select`);
+    var filterInput = mapFiltersElement.querySelectorAll(`input`);
 
     var filter = {};
     var filterPrices = {};
     var featuresFilters = [];
 
-    for (var filterElSelect of filterSelect) {
-      var selectVal = filterElSelect.value;
-      if (selectVal !== `any`) {
-        var selectId = filterElSelect.id.split(`-`)[1];
-        if (selectId === `type`) {
-          filter[selectId] = selectVal;
-        } else if (selectId === `price`) {
-          if (selectVal === `middle`) {
+    for (var filterElementSelect of filterSelect) {
+      var filterValue = filterElementSelect.value;
+      if (filterValue !== `any`) {
+        var filterType = filterElementSelect.id.split(`-`)[1];
+        if (filterType === `type`) {
+          filter[filterType] = filterValue;
+        } else if (filterType === `price`) {
+          if (filterValue === `middle`) {
             filterPrices[`min`] = 10000;
             filterPrices[`max`] = 50000;
-          } else if (selectVal === `low`) {
+          } else if (filterValue === `low`) {
             filterPrices[`min`] = 0;
             filterPrices[`max`] = 10000;
-          } else if (selectVal === `high`) {
+          } else if (filterValue === `high`) {
             filterPrices[`min`] = 50000;
             filterPrices[`max`] = Infinity;
           }
         } else {
-          filter[selectId] = parseInt(selectVal, 10);
+          filter[filterType] = parseInt(filterValue, 10);
         }
       }
     }
-    for (var filterElInput of filterInput) {
-      if (filterElInput.checked) {
-        featuresFilters.push(filterElInput.value);
+    for (var filterElementInput of filterInput) {
+      if (filterElementInput.checked) {
+        featuresFilters.push(filterElementInput.value);
       }
     }
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
     lastTimeout = window.setTimeout(function () {
-      filtration(filter, featuresFilters, filterPrices);
+      filterMarkers(filter, featuresFilters, filterPrices);
     }, 500);
   });
 })();

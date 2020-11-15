@@ -1,6 +1,8 @@
 "use strict";
 
 (function () {
+  var KEY_ESCAPE = `Escape`;
+
   var URL = `https://21.javascript.pages.academy/keksobooking`;
   var main = document.querySelector(`main`);
 
@@ -24,8 +26,8 @@
       status.remove();
     };
 
-    var closeSuccessInfo = function (event) {
-      if (event.key === `Escape`) {
+    var closeSuccessInfo = function (evt) {
+      if (evt.key === KEY_ESCAPE) {
         removeNotice(successTemp);
       } else {
         removeNotice(successTemp);
@@ -36,8 +38,8 @@
 
     var errorButton = errorTemp.querySelector(`.error__button`);
 
-    var closeErrorInfo = function (event) {
-      if (event.key === `Escape`) {
+    var closeErrorInfo = function (evt) {
+      if (evt.key === KEY_ESCAPE) {
         removeNotice(errorTemp);
       } else {
         removeNotice(errorTemp);
