@@ -20,11 +20,11 @@
   formTitle.addEventListener(`input`, function () {
     if (formTitle.value.length < FORM_TITLE_MIN_LENGTH) {
       formTitle.setCustomValidity(
-        `Заголовок объявления должен быть больше ${FORM_TITLE_MIN_LENGTH} символов. Сейчас количество символов ${formTitle.value.length}.`
+          `Заголовок объявления должен быть больше ${FORM_TITLE_MIN_LENGTH} символов. Сейчас количество символов ${formTitle.value.length}.`
       );
     } else if (formTitle.value.length > FORM_TITLE_MAX_LENGTH) {
       formTitle.setCustomValidity(
-        `Заголовок объявления должен быть не более ${FORM_TITLE_MAX_LENGTH} символов. Сейчас количество символов ${formTitle.value.length}.`
+          `Заголовок объявления должен быть не более ${FORM_TITLE_MAX_LENGTH} символов. Сейчас количество символов ${formTitle.value.length}.`
       );
     } else {
       formTitle.setCustomValidity(``);
@@ -70,11 +70,11 @@
   var checkPrice = function () {
     if (formPrice.value > FORM_MAX_PRICE) {
       formPrice.setCustomValidity(
-        `Максимальная цена за ночь ${FORM_MAX_PRICE} руб.`
+          `Максимальная цена за ночь ${FORM_MAX_PRICE} руб.`
       );
     } else if (formPrice.value < formMinPrice) {
       formPrice.setCustomValidity(
-        `Минимальная цена за ночь в типе жилья: ${formTypeText}, ${formMinPrice} руб.`
+          `Минимальная цена за ночь в типе жилья: ${formTypeText}, ${formMinPrice} руб.`
       );
     } else {
       formPrice.setCustomValidity(``);

@@ -16,7 +16,7 @@
         if (!mapCard) {
           pointer.classList.add(`map__pin---active`);
           window.popup.fragment.appendChild(
-            window.popup.renderPopup(pins[pinAttribute])
+              window.popup.renderPopup(pins[pinAttribute])
           );
           mapPinsElement.appendChild(window.popup.fragment);
         } else {
@@ -25,7 +25,7 @@
           }
           mapCard.remove();
           window.popup.fragment.appendChild(
-            window.popup.renderPopup(pins[pinAttribute])
+              window.popup.renderPopup(pins[pinAttribute])
           );
           mapPinsElement.appendChild(window.popup.fragment);
           pointer.classList.add(`map__pin---active`);
