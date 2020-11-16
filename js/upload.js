@@ -29,11 +29,13 @@
     var closeSuccessInfo = function (evt) {
       if (evt.key === KEY_ESCAPE) {
         removeNotice(successTemp);
-      } else {
+        document.removeEventListener(`keydown`, closeSuccessInfo);
+        document.removeEventListener(`click`, closeSuccessInfo);
+      } else if (!evt.key) {
         removeNotice(successTemp);
+        document.removeEventListener(`keydown`, closeSuccessInfo);
+        document.removeEventListener(`click`, closeSuccessInfo);
       }
-      document.removeEventListener(`keydown`, closeSuccessInfo);
-      document.removeEventListener(`click`, closeSuccessInfo);
     };
 
     var errorButton = errorTemp.querySelector(`.error__button`);
@@ -41,22 +43,27 @@
     var closeErrorInfo = function (evt) {
       if (evt.key === KEY_ESCAPE) {
         removeNotice(errorTemp);
-      } else {
+        document.removeEventListener(`keydown`, closeErrorInfo);
+        document.removeEventListener(`click`, closeErrorInfo);
+        errorButton.removeEventListener(`click`, closeErrorInfo);
+      } else if (!evt.key) {
         removeNotice(errorTemp);
+        document.removeEventListener(`keydown`, closeErrorInfo);
+        document.removeEventListener(`click`, closeErrorInfo);
+        errorButton.removeEventListener(`click`, closeErrorInfo);
       }
-      document.removeEventListener(`keydown`, closeErrorInfo);
-      document.removeEventListener(`click`, closeErrorInfo);
-      errorButton.removeEventListener(`click`, closeErrorInfo);
     };
 
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
         main.appendChild(successTemp);
+        document.activeElement.blur();
         document.addEventListener(`click`, closeSuccessInfo);
         document.addEventListener(`keydown`, closeSuccessInfo);
       } else {
         main.appendChild(errorTemp);
+        document.activeElement.blur();
         document.addEventListener(`click`, closeErrorInfo);
         errorButton.addEventListener(`click`, closeErrorInfo);
         document.addEventListener(`keydown`, closeErrorInfo);

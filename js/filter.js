@@ -23,35 +23,49 @@
     data = downloadedPins;
   };
 
+  window.download(saveData);
+
   var filterMarkers = function (filter, featuresFilters, filterPrices) {
-    var filteredMarkers = data.filter(function (marker) {
+    var filteredMarkers = [];
+    for (var marker of data) {
+      var continueFlag = false;
       for (var key in filter) {
         if (marker.offer[key] !== filter[key]) {
-          return false;
+          continueFlag = true;
+          break;
         }
+      }
+      if (continueFlag === true) {
+        continue;
       }
       for (var feturesFilter of featuresFilters) {
         if (marker.offer.features.indexOf(feturesFilter) === -1) {
-          return false;
+          continueFlag = true;
+          break;
         }
+      }
+      if (continueFlag === true) {
+        continue;
       }
       if (`max` in filterPrices) {
         if (
           filterPrices[`min`] > marker.offer.price ||
           filterPrices[`max`] <= marker.offer.price
         ) {
-          return false;
+          continue;
         }
       }
-      return true;
-    });
+      filteredMarkers.push(marker);
+      if (filteredMarkers.length === 5) {
+        break;
+      }
+    }
     clearPin(filteredMarkers);
   };
 
   var lastTimeout;
 
   mapFiltersElement.addEventListener(`change`, function () {
-    window.download(saveData);
     var filterSelect = mapFiltersElement.querySelectorAll(`select`);
     var filterInput = mapFiltersElement.querySelectorAll(`input`);
 
