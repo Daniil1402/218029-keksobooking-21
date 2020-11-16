@@ -60,6 +60,9 @@
     if (pin.offer.features.length === 0) {
       popupFeature.remove();
     }
+    if (pin.offer.photos.length === 0) {
+      cardPhoto.remove();
+    }
 
     cardDescription.textContent = pin.offer.description;
 
