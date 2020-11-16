@@ -11,7 +11,6 @@
     var cardType = cardElement.querySelector(`.popup__type`);
     var cardTextCapacity = cardElement.querySelector(`.popup__text--capacity`);
     var cardTextTime = cardElement.querySelector(`.popup__text--time`);
-    var cardFeatures = cardElement.querySelectorAll(`.popup__feature`);
     var cardDescription = cardElement.querySelector(`.popup__description`);
     var cardPhoto = cardElement.querySelector(`.popup__photos`);
     var cardAvatar = cardElement.querySelector(`.popup__avatar`);
@@ -49,34 +48,36 @@
 
     cardTextTime.textContent = `Заезд после ${pin.offer.checkin}, выезд до ${pin.offer.checkout}`;
 
-    for (var cardFeature of cardFeatures) {
-      var cardClass = cardFeature.classList[1];
-      var featureCode = cardClass.split(`--`)[1];
-      var featureIndex = pin.offer.features.indexOf(featureCode);
-      if (featureIndex === -1) {
-        cardFeature.remove();
+    if (pin.offer.features.length !== 0) {
+      for (var i = 0; i < pin.offer.features.length; i++) {
+        var cardFeature = document.createElement(`li`);
+        cardFeature.classList.add(
+            `popup__feature`,
+            `popup__feature--` + `${pin.offer.features[i]}`
+        );
+        popupFeature.appendChild(cardFeature);
       }
-    }
-    if (pin.offer.features.length === 0) {
+    } else {
       popupFeature.remove();
     }
-    if (pin.offer.photos.length === 0) {
-      cardPhoto.remove();
-    }
 
-    cardDescription.textContent = pin.offer.description;
+    if (pin.offer.description !== ``) {
+      cardDescription.textContent = pin.offer.description;
+    } else {
+      cardDescription.remove();
+    }
 
     var cardPhotosChild = cardPhoto.querySelector(`.popup__photo`);
 
     if (pin.offer.photos.length === 0) {
-      cardPhotosChild.remove();
+      cardPhoto.remove();
     } else if (pin.offer.photos.length === 1) {
       cardPhotosChild.src = pin.offer.photos[0];
     } else if (pin.offer.photos.length > 1) {
-      for (var i = 1; i < pin.offer.photos.length; i++) {
+      for (var j = 1; j < pin.offer.photos.length; j++) {
         cardPhotosChild.src = pin.offer.photos[0];
         var cardPhotoСlone = cardPhotosChild.cloneNode();
-        cardPhotoСlone.src = pin.offer.photos[i];
+        cardPhotoСlone.src = pin.offer.photos[j];
         cardPhoto.appendChild(cardPhotoСlone);
       }
     }
