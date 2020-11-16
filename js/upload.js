@@ -27,11 +27,7 @@
     };
 
     var closeSuccessInfo = function (evt) {
-      if (evt.key === KEY_ESCAPE) {
-        removeNotice(successTemp);
-        document.removeEventListener(`keydown`, closeSuccessInfo);
-        document.removeEventListener(`click`, closeSuccessInfo);
-      } else if (!evt.key) {
+      if (evt.key === KEY_ESCAPE || !evt.key) {
         removeNotice(successTemp);
         document.removeEventListener(`keydown`, closeSuccessInfo);
         document.removeEventListener(`click`, closeSuccessInfo);
@@ -41,12 +37,7 @@
     var errorButton = errorTemp.querySelector(`.error__button`);
 
     var closeErrorInfo = function (evt) {
-      if (evt.key === KEY_ESCAPE) {
-        removeNotice(errorTemp);
-        document.removeEventListener(`keydown`, closeErrorInfo);
-        document.removeEventListener(`click`, closeErrorInfo);
-        errorButton.removeEventListener(`click`, closeErrorInfo);
-      } else if (!evt.key) {
+      if (evt.key === KEY_ESCAPE || !evt.key) {
         removeNotice(errorTemp);
         document.removeEventListener(`keydown`, closeErrorInfo);
         document.removeEventListener(`click`, closeErrorInfo);
