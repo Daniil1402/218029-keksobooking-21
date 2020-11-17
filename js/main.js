@@ -41,6 +41,17 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
+  var markers = [];
+  var saveData = function (downloadedPins) {
+    markers = downloadedPins;
+  };
+
+  var getMarkers = function () {
+    return markers;
+  };
+
+  window.download(saveData, errorHandler);
+
   var enableFlag = false;
 
   var enablePage = function () {
@@ -56,8 +67,8 @@
       formFieldset.removeAttribute(`disabled`);
     }
     window.address.makeAddress();
-    window.download(createPin, errorHandler);
-    window.download(window.openclosePopup.changePopupState, errorHandler);
+    createPin(markers);
+    window.openclosePopup.changePopupState(markers);
   };
 
   var disablePage = function () {
@@ -89,14 +100,14 @@
     enableFlag = false;
   };
 
-  var createPin = function (markers) {
+  var createPin = function (newMarkers) {
     var maxPin = 5;
     var fragment = document.createDocumentFragment();
-    if (markers.length < maxPin) {
-      maxPin = markers.length;
+    if (newMarkers.length < maxPin) {
+      maxPin = newMarkers.length;
     }
     for (var i = 0; i < maxPin; i++) {
-      var pinElement = window.createPin(markers[i]);
+      var pinElement = window.createPin(newMarkers[i]);
       fragment.appendChild(pinElement);
     }
     mapPinsElement.appendChild(fragment);
@@ -130,5 +141,6 @@
 
   window.main = {
     createPin,
+    getMarkers,
   };
 })();
