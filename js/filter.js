@@ -18,16 +18,10 @@
     window.main.createPin(filteredMarkers);
   };
 
-  var data = [];
-  var saveData = function (downloadedPins) {
-    data = downloadedPins;
-  };
-
-  window.download(saveData);
-
   var filterMarkers = function (filter, featuresFilters, filterPrices) {
+    var allMarkers = window.main.getMarkers();
     var filteredMarkers = [];
-    for (var marker of data) {
+    for (var marker of allMarkers) {
       var continueFlag = false;
       for (var key in filter) {
         if (marker.offer[key] !== filter[key]) {
